@@ -1,5 +1,4 @@
-import { RecognitionProvider, RecognitionResult, RecognitionCapabilities } from '../interfaces';
-
+import { RecognitionProvider, RecognitionResult, RecognitionCapabilities } from '../types';
 /**
  * Конфигурация для MathPix провайдера
  */

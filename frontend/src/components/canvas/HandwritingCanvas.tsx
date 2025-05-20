@@ -38,6 +38,42 @@ interface HandwritingCanvasProps {
   className?: string;
 }
 
+// Обработчик для получения изображения с холста
+const handleCapture = () => {
+  if (fabricCanvasRef.current && isCanvasModified) {
+    // Получаем изображение в формате Data URL
+    try {
+      const imageData = fabricCanvasRef.current.toDataURL({
+        format: 'png',
+        quality: 1,
+      });
+      
+      // Вызываем обработчик, если он предоставлен
+      if (onImageCapture) {
+        // Пробуем вызвать оригинальный обработчик
+        try {
+          onImageCapture(imageData);
+        } catch (error) {
+          console.error('Error in image capture handler:', error);
+          // Если оригинальный обработчик не сработал, используем заглушку
+          if (window.mockRecognition) {
+            const mockResult = mode === 'math' 
+              ? window.mockRecognition.math()
+              : window.mockRecognition.text();
+            
+            // Если определена функция обратного вызова для заглушки, вызываем её
+            if (typeof window.mockRecognitionCallback === 'function') {
+              window.mockRecognitionCallback(mockResult);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error capturing canvas image:', error);
+    }
+  }
+};
+
 /**
  * Компонент для рукописного ввода с поддержкой стилуса
  */

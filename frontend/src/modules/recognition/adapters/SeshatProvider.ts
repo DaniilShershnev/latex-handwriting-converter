@@ -1,4 +1,4 @@
-import { RecognitionProvider, RecognitionResult, RecognitionCapabilities } from '../interfaces';
+import { RecognitionProvider, RecognitionResult, RecognitionCapabilities } from '../types';
 
 /**
  * Провайдер распознавания на основе Seshat (open source решение)

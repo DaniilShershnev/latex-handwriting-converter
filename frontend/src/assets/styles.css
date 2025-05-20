@@ -1,0 +1,243 @@
+/* tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Основные контейнеры */
+  .app-container {
+    @apply min-h-screen bg-gray-50 flex flex-col;
+  }
+
+  .app-header {
+    @apply bg-indigo-700 text-white py-4 px-6 shadow-md flex justify-between items-center;
+  }
+
+  .app-content {
+    @apply flex flex-1 p-4 gap-4;
+  }
+
+  .app-sidebar {
+    @apply w-64 bg-white rounded-lg shadow-md p-4 flex flex-col gap-4;
+  }
+
+  .app-editor {
+    @apply flex-1 flex flex-col gap-4;
+  }
+
+  .document-title-container {
+    @apply flex-1 max-w-md ml-4;
+  }
+
+  .document-title-input {
+    @apply w-full px-3 py-2 bg-indigo-600 text-white border border-indigo-500 rounded-md 
+           focus:outline-none focus:ring-2 focus:ring-white placeholder-indigo-300;
+  }
+
+  /* Боковая панель */
+  .sidebar-section {
+    @apply mb-4;
+  }
+
+  .sidebar-section h3 {
+    @apply text-lg font-medium text-gray-700 mb-2;
+  }
+
+  .input-mode-selector {
+    @apply flex gap-2;
+  }
+
+  .mode-button {
+    @apply flex-1 py-2 px-4 bg-gray-200 rounded-md text-gray-700 font-medium transition-colors;
+  }
+
+  .mode-button.active {
+    @apply bg-indigo-600 text-white;
+  }
+
+  .provider-select, .template-select {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 
+           focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  .credentials-input {
+    @apply w-full px-3 py-2 mb-2 border border-gray-300 rounded-md focus:outline-none 
+           focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  .add-text-button {
+    @apply w-full py-2 px-4 bg-green-600 text-white rounded-md font-medium
+           hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 
+           focus:ring-green-500 focus:ring-offset-2;
+  }
+
+  /* Холст */
+  .input-section {
+    @apply bg-white rounded-lg shadow-md p-4;
+  }
+
+  .input-section h2 {
+    @apply text-xl font-medium text-gray-700 mb-4;
+  }
+
+  .main-canvas {
+    @apply w-full border border-gray-300 rounded-md overflow-hidden;
+  }
+
+  .canvas-wrapper {
+    @apply border border-gray-300 rounded-md overflow-hidden;
+  }
+
+  .canvas-controls {
+    @apply flex gap-2 mt-4;
+  }
+
+  .control-button {
+    @apply py-2 px-4 rounded-md font-medium transition-colors
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .undo-button, .clear-button {
+    @apply bg-gray-200 text-gray-700 hover:bg-gray-300
+           focus:ring-gray-500;
+  }
+
+  .capture-button {
+    @apply bg-indigo-600 text-white hover:bg-indigo-700
+           focus:ring-indigo-500;
+  }
+
+  .control-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Статусы распознавания */
+  .recognition-status {
+    @apply mt-2 text-blue-700 font-medium;
+  }
+
+  .recognition-error {
+    @apply mt-2 text-red-600 font-medium;
+  }
+
+  /* Документ */
+  .preview-section {
+    @apply bg-white rounded-lg shadow-md p-4 mt-4;
+  }
+
+  .preview-section h2 {
+    @apply text-xl font-medium text-gray-700 mb-4;
+  }
+
+  .document-preview {
+    @apply border border-gray-300 rounded-md p-4 min-h-[400px];
+  }
+
+  /* Редактор документов */
+  .document-items-editor {
+    @apply bg-white rounded-lg shadow-md p-4 mt-4;
+  }
+
+  .document-items-editor h3 {
+    @apply text-xl font-medium text-gray-700 mb-4;
+  }
+
+  .empty-document-message {
+    @apply text-gray-500 italic p-4 text-center;
+  }
+
+  .items-list {
+    @apply flex flex-col gap-4;
+  }
+
+  .document-item-editor {
+    @apply border border-gray-300 rounded-md p-4 relative;
+  }
+
+  .item-type-indicator {
+    @apply absolute top-0 right-0 bg-gray-200 text-xs px-2 py-1 rounded-bl-md;
+  }
+
+  .item-content-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+           focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  .math-item-editor {
+    @apply flex flex-col gap-2;
+  }
+
+  .math-preview {
+    @apply p-4 border border-gray-300 rounded-md bg-gray-50 min-h-[60px];
+  }
+
+  .delete-item-button {
+    @apply mt-2 py-1 px-3 bg-red-100 text-red-700 rounded-md text-sm
+           hover:bg-red-200 transition-colors focus:outline-none;
+  }
+
+  /* Шаблоны LaTeX документа */
+  .latex-document {
+    @apply p-4;
+  }
+
+  .document-header {
+    @apply mb-6;
+  }
+
+  .document-title {
+    @apply text-2xl font-bold mb-2;
+  }
+
+  .document-content {
+    @apply space-y-4;
+  }
+
+  .content-item {
+    @apply mb-4;
+  }
+
+  .content-math {
+    @apply my-4 py-2;
+  }
+
+  .document-actions {
+    @apply mt-6 flex justify-end;
+  }
+
+  .export-button {
+    @apply py-2 px-4 bg-indigo-600 text-white rounded-md font-medium
+           hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2
+           focus:ring-indigo-500 focus:ring-offset-2;
+  }
+
+  /* Шаблоны документов */
+  .latex-template-classic {
+    @apply font-serif;
+  }
+
+  .latex-template-classic .document-title {
+    @apply text-center;
+  }
+
+  .latex-template-modern {
+    @apply font-sans;
+  }
+
+  .latex-template-modern .document-title {
+    @apply text-left border-b-2 border-indigo-500 pb-2;
+  }
+
+  .latex-template-minimal {
+    @apply font-mono;
+  }
+
+  .latex-template-minimal .document-title {
+    @apply text-lg uppercase tracking-wide;
+  }
+}
+
+/* Дополнительные стили для MathJax */
+.MathJax_Display {
+  @apply overflow-x-auto overflow-y-hidden;
+}

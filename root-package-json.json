@@ -1,0 +1,31 @@
+{
+  "name": "handwriting-latex-converter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "cd frontend && vite",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "build:frontend": "cd frontend && vite build",
+    "build:backend": "cd backend && npm run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && vitest run",
+    "test:backend": "cd backend && jest",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.2"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "recognition"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

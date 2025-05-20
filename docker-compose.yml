@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # Frontend сервис
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8080/api
+    networks:
+      - app-network
+
+  # Backend сервис
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - MONGODB_URI=mongodb://mongo:27017/latex-converter
+      - JWT_SECRET=your_jwt_secret_key_here
+      # Опциональные MathPix учетные данные
+      # - MATHPIX_APP_ID=your_app_id
+      # - MATHPIX_API_KEY=your_api_key
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  # MongoDB сервис
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

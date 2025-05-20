@@ -1,15 +1,22 @@
-// Заглушка для Seshat WebAssembly модуля
+// frontend/src/modules/wasm/seshat.ts
 export default async function initSeshat(options: any) {
-  // В реальной имплементации здесь будет загрузка WASM
-  console.warn('Seshat WebAssembly модуль не реализован');
+  console.log('Инициализация Seshat модуля...');
+  
+  // Заглушка с минимальной функциональностью
   return {
-    recognizeExpression: () => ({
-      latex: '\\frac{x^2}{2}',
-      confidence: 0.8
-    }),
-    recognizeText: () => ({
-      text: 'Sample text',
-      confidence: 0.7
-    })
+    recognizeExpression: (imageData: any) => {
+      console.log('SeshatModule.recognizeExpression вызвана', imageData?.length);
+      return {
+        latex: '\\frac{x^2}{2}',
+        confidence: 0.8
+      };
+    },
+    recognizeText: (imageData: any) => {
+      console.log('SeshatModule.recognizeText вызвана', imageData?.length);
+      return {
+        text: 'Sample text',
+        confidence: 0.7
+      };
+    }
   };
 }

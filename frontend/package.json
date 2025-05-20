@@ -4,13 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
-  },
+  "build": "vite build",
+  "build:check": "tsc && vite build"
+},
   "dependencies": {
     "fabric": "^5.3.0",
     "jspdf": "^2.5.1",

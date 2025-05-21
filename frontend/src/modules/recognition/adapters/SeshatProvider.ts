@@ -32,8 +32,13 @@ export class SeshatProvider implements RecognitionProvider {
         // Примечание: в реальной реализации нужно будет настроить загрузку WASM
         const SeshatModule = await import('../../wasm/seshat');
         this.seshatInstance = await SeshatModule.default({
-          locateFile: (file: string) => `/wasm/${file}`,
+          locateFile: (file: string) => {
+            console.log('Загрузка WASM файла:', file);
+            // Используем абсолютный путь с base URL
+            return new URL(`/wasm/${file}`, window.location.origin).href;
+          },
           onRuntimeInitialized: () => {
+            console.log('Seshat WASM инициализирован успешно');
             this.isInitialized = true;
             resolve();
           }

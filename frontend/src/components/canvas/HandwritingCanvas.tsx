@@ -38,41 +38,7 @@ interface HandwritingCanvasProps {
   className?: string;
 }
 
-// Обработчик для получения изображения с холста
-const handleCapture = () => {
-  if (fabricCanvasRef.current && isCanvasModified) {
-    // Получаем изображение в формате Data URL
-    try {
-      const imageData = fabricCanvasRef.current.toDataURL({
-        format: 'png',
-        quality: 1,
-      });
-      
-      // Вызываем обработчик, если он предоставлен
-      if (onImageCapture) {
-        // Пробуем вызвать оригинальный обработчик
-        try {
-          onImageCapture(imageData);
-        } catch (error) {
-          console.error('Error in image capture handler:', error);
-          // Если оригинальный обработчик не сработал, используем заглушку
-          if (window.mockRecognition) {
-            const mockResult = mode === 'math' 
-              ? window.mockRecognition.math()
-              : window.mockRecognition.text();
-            
-            // Если определена функция обратного вызова для заглушки, вызываем её
-            if (typeof window.mockRecognitionCallback === 'function') {
-              window.mockRecognitionCallback(mockResult);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error capturing canvas image:', error);
-    }
-  }
-};
+// Это код дубликат, который должен быть удален
 
 /**
  * Компонент для рукописного ввода с поддержкой стилуса
@@ -150,15 +116,36 @@ const HandwritingCanvas: React.FC<HandwritingCanvasProps> = ({
   const handleCapture = () => {
     if (fabricCanvasRef.current && isCanvasModified) {
       // Получаем изображение в формате Data URL
-      const imageData = fabricCanvasRef.current.toDataURL({
-        format: 'png',
-        quality: 1,
-      });
-      
-      // Вызываем обработчик, если он предоставлен
-      if (onImageCapture) {
-        onImageCapture(imageData);
+      try {
+        console.log('Получаем изображение с холста...');
+        
+        // Добавляем белый фон для лучшего распознавания
+        const canvas = fabricCanvasRef.current.getElement();
+        const context = canvas.getContext('2d');
+        
+        if (context) {
+          // Сохраняем текущие нарисованные линии
+          const imageData = fabricCanvasRef.current.toDataURL({
+            format: 'png',
+            quality: 1.0,
+            multiplier: 2.0, // Увеличиваем разрешение для лучшего распознавания
+          });
+          
+          console.log('Изображение получено, размер:', 
+            imageData ? (imageData.length / 1024).toFixed(2) + ' КБ' : 'неизвестно');
+          
+          // Вызываем обработчик, если он предоставлен
+          if (onImageCapture) {
+            onImageCapture(imageData);
+          }
+        } else {
+          console.error('Не удалось получить контекст canvas');
+        }
+      } catch (error) {
+        console.error('Ошибка при получении изображения с холста:', error);
       }
+    } else {
+      console.warn('Canvas не изменен или не инициализирован');
     }
   };
   

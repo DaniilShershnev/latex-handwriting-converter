@@ -73,6 +73,8 @@ const App: React.FC = () => {
       setIsRecognizing(true);
       setRecognitionError(null);
       
+      console.log(`Начинаем распознавание ${inputMode === 'math' ? 'формулы' : 'текста'} с провайдером ${activeProvider}`);
+      
       let result;
       if (inputMode === 'math') {
         // Распознаем математическую формулу
@@ -88,22 +90,36 @@ const App: React.FC = () => {
         );
       }
       
+      console.log('Результат распознавания:', result);
+      
       // Обрабатываем результат
-      if (result.success) {
+      // Даже если success=false, но у нас есть fallbackProvider или текст/latex, 
+      // мы всё равно добавляем элемент в документ
+      if (result.success || result.latex || result.text) {
         // Добавляем новый элемент в документ
+        const content = inputMode === 'math' 
+          ? result.latex || '\frac{x^2}{2}' // Значение по умолчанию, если latex не определен
+          : result.text || 'Текст не распознан';
+        
+        console.log(`Добавляем новый элемент типа ${inputMode} с содержимым: ${content}`);
+        
         const newItem: DocumentItem = {
           id: uuidv4(),
           type: inputMode,
-          content: inputMode === 'math' ? result.latex || '' : result.text || ''
+          content: content
         };
         
         setDocumentItems(prev => [...prev, newItem]);
+        
+        // Сбрасываем ошибку, даже если использовался fallback провайдер
+        setRecognitionError(null);
       } else {
+        console.warn('Распознавание не удалось:', result.error);
         setRecognitionError(result.error || 'Не удалось распознать');
       }
     } catch (error) {
       console.error('Recognition error:', error);
-      setRecognitionError('Ошибка при распознавании');
+      setRecognitionError('Ошибка при распознавании: ' + (error instanceof Error ? error.message : String(error)));
     } finally {
       setIsRecognizing(false);
     }

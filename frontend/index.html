@@ -5,8 +5,45 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Рукописный конвертер в LaTeX</title>
+    <!-- Предзагрузка WASM файла -->
+    <link rel="preload" href="/wasm/seshat.wasm" as="fetch" crossorigin="anonymous">
     <script type="text/javascript" id="MathJax-script" async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <!-- Инициализация глобальных настроек -->
+    <script>
+      // Проверка поддержки WASM
+      function checkWasmSupport() {
+        try {
+          // Проверяем поддержку WebAssembly
+          if (typeof WebAssembly === 'object' && 
+              typeof WebAssembly.instantiate === 'function') {
+            // Тестовый WASM модуль
+            const module = new WebAssembly.Module(new Uint8Array([
+              0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00
+            ]));
+            if (module instanceof WebAssembly.Module) {
+              return {
+                supported: true,
+                version: 'WebAssembly 1.0'
+              };
+            }
+          }
+        } catch (e) {
+          console.warn('WebAssembly не поддерживается:', e);
+        }
+        return { supported: false };
+      }
+
+      // Глобальная конфигурация
+      window.AppConfig = {
+        wasm: checkWasmSupport(),
+        debug: true,
+        wasmPath: '/wasm/'
+      };
+      
+      // Проверяем поддержку WASM при загрузке страницы
+      console.log('Поддержка WebAssembly:', window.AppConfig.wasm);
     </script>
   </head>
   <body>
